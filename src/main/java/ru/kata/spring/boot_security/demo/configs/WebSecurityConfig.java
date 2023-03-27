@@ -15,11 +15,13 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 public class WebSecurityConfig {
     private final SuccessUserHandler successUserHandler;
     private final UserServiceImpl userServiceImpl;
+    private final PasswordEncoderService passwordEncoder;
 
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImpl userServiceImpl) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImpl userServiceImpl, PasswordEncoderService passwordEncoder) {
         this.successUserHandler = successUserHandler;
         this.userServiceImpl = userServiceImpl;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
@@ -52,15 +54,11 @@ public class WebSecurityConfig {
 //        return new InMemoryUserDetailsManager(user);
 //    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder.passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userServiceImpl);
         return daoAuthenticationProvider;
     }

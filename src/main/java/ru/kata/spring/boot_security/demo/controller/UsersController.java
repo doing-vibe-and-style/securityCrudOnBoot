@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
@@ -14,12 +13,10 @@ import java.security.Principal;
 @RequestMapping("/")
 public class UsersController {
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @Autowired
-    public UsersController(UserService userService, UserRepository userRepository) {
+    public UsersController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/admin")
@@ -30,7 +27,7 @@ public class UsersController {
 
     @GetMapping("/user")
     public String userPage(Model model, Principal principal) {
-        User user = userRepository.findByUsername(principal.getName());
+        User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", userService.getUser(user.getId()));
         return "userPage";
     }

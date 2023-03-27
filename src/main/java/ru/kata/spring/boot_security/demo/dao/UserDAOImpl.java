@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.entity.User;
@@ -13,6 +14,12 @@ public class UserDAOImpl implements UserDAO{
     @PersistenceContext
     private EntityManager entityManager;
 
+
+    @Override
+    public User findByUsername(String username) {
+        Query query = entityManager.createQuery("select user from User user where user.username = :username", User.class);
+        return (User) query.setParameter("username", username).getSingleResult();
+    }
 
     @Override
     public void add(User user) {

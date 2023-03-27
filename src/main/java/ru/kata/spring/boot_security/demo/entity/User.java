@@ -3,8 +3,6 @@ package ru.kata.spring.boot_security.demo.entity;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 
@@ -56,17 +54,13 @@ public class User implements UserDetails {
         return getRoles();
     }
 
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = passwordEncoder().encode(password);
+        this.password = password;
     }
 
     public String getUsername() {
