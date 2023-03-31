@@ -5,6 +5,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -31,13 +33,13 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private List<Role> roles;
 
-    public Collection<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -52,6 +54,11 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
+    }
+
+    public String getRolesString() {
+        String roleSet = roles.stream().map(Role::getName).collect(Collectors.joining(", "));
+        return roleSet;
     }
 
     @Override
@@ -107,7 +114,7 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public User(Long id, String username, String password, Integer age, String email, Collection<Role> roles) {
+    public User(Long id, String username, String password, Integer age, String email, List<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;

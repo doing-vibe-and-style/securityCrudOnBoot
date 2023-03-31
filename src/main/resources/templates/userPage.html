@@ -12,6 +12,7 @@
         <th scope="col">id</th>
         <th scope="col">age</th>
         <th scope="col">email</th>
+        <th scope="col">roles</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,8 @@
         <td th:text="${user.id}"/>
         <td th:text="${user.age}"/>
         <td th:text="${user.email}"/>
+        <td th:text="${user.getRolesString()}"/>
+
     </tr>
     </tbody>
 </table>
