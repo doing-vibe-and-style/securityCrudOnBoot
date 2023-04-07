@@ -22,24 +22,23 @@ public class UsersController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/admin")
-    public String showAllUsers(Model model) {
+    @GetMapping("admin")
+    public String showAllUsers(Model model, Principal principal) {
+        User admin = userService.findByUsername(principal.getName());
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("admin", admin);
         model.addAttribute("users", userService.listUsers());
-        return "admin";
+        model.addAttribute("roles", roleService.getListOfRoles());
+        model.addAttribute("newUser", new User());
+        model.addAttribute("user", userService.getUser(user.getId()));
+        return "/admin";
     }
 
     @GetMapping("/user")
     public String userPage(Model model, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", userService.getUser(user.getId()));
-        return "userPage";
-    }
-
-    @GetMapping("/add")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("roles", roleService.getListOfRoles());
-        return "new";
+        return "/userPage";
     }
 
     @PostMapping()
@@ -48,15 +47,11 @@ public class UsersController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("roles", roleService.getListOfRoles());
-        return "edit";
-    }
-
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
+        User eUser = userService.getUser(id);
+        eUser.setUsername(user.getUsername());
+        eUser.setRoles(user.getRoles());
         userService.update(user);
         return "redirect:/admin";
     }

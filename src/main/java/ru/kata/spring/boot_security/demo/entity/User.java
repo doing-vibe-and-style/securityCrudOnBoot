@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -57,8 +56,11 @@ public class User implements UserDetails {
     }
 
     public String getRolesString() {
-        String roleSet = roles.stream().map(Role::getName).collect(Collectors.joining(", "));
-        return roleSet;
+        StringBuilder sb = new StringBuilder();
+        for(Role role: roles) {
+            sb.append(role.getRoleName()).append(" ");
+        }
+        return sb.toString();
     }
 
     @Override
@@ -102,7 +104,7 @@ public class User implements UserDetails {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
