@@ -24,13 +24,11 @@ public class UsersController {
 
     @GetMapping("admin")
     public String showAllUsers(Model model, Principal principal) {
-        User admin = userService.findByUsername(principal.getName());
         User user = userService.findByUsername(principal.getName());
-        model.addAttribute("admin", admin);
+        model.addAttribute("user", user);
         model.addAttribute("users", userService.listUsers());
         model.addAttribute("roles", roleService.getListOfRoles());
         model.addAttribute("newUser", new User());
-        model.addAttribute("user", userService.getUser(user.getId()));
         return "/admin";
     }
 
