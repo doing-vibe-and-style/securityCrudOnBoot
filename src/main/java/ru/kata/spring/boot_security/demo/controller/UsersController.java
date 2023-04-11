@@ -48,10 +48,7 @@ public class UsersController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        User eUser = userService.getUser(id);
-        eUser.setUsername(user.getUsername());
-        eUser.setRoles(user.getRoles());
+    public String update(@ModelAttribute("user") User user) {
         userService.update(user);
         return "redirect:/admin";
     }
