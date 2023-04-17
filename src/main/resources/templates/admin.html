@@ -87,7 +87,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="modal fade" id="modal-edit-${user.getId()}" tabindex="-1"
+                            <div class="modal fade" id="modal-edit-${user.id}" tabindex="-1"
                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -198,7 +198,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="modal-delete-${user.getId()}"
+                            <div class="modal fade" id="modal-delete-${user.id}"
                                  tabindex="-1"
                                  aria-labelledby="ModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
@@ -410,23 +410,6 @@
                     editBtn.setAttribute('data-bs-target', `#modal-edit-${item.id}`);
                     const editModal = document.querySelector(`#modal-edit-${item.id}`);
                     editBtn.addEventListener('click', () => {
-                        const row = editBtn.closest('tr');
-                        const userId = row.cells[0].textContent;
-                        const userName = row.cells[1].textContent;
-                        const userAge = row.cells[2].textContent;
-                        const userEmail = row.cells[3].textContent;
-                        const userRole = row.cells[4].textContent;
-
-                        const editUserIdInput = editModal.querySelector('#editUserId');
-                        const editUserNameInput = editModal.querySelector('#editUserName');
-                        const editUserAgeInput = editModal.querySelector('#editUserAge');
-                        const editUserEmailInput = editModal.querySelector('#editUserEmail');
-                        const editUserRoleInput = editModal.querySelector('#editUserRole');
-                        editUserIdInput.value = userId;
-                        editUserNameInput.value = userName;
-                        editUserAgeInput.value = userAge;
-                        editUserEmailInput.value = userEmail;
-                        editUserRoleInput.value = userRole;
 
                         const modal = new bootstrap.Modal(editModal);
                         modal.show();
@@ -440,23 +423,6 @@
                     deleteBtn.setAttribute('data-bs-target', `#modal-delete-${item.id}`);
                     const deleteModal = document.querySelector(`#modal-delete-${item.id}`);
                     deleteBtn.addEventListener('click', () => {
-                        const row = deleteBtn.closest('tr');
-                        const userId = row.cells[0].textContent;
-                        const userName = row.cells[1].textContent;
-                        const userAge = row.cells[2].textContent;
-                        const userEmail = row.cells[3].textContent;
-                        const userRole = row.cells[4].textContent;
-
-                        const deleteUserIdInput = deleteModal.querySelector('#deleteUserId');
-                        const deleteUserNameInput = deleteModal.querySelector('#deleteUserName');
-                        const deleteUserAgeInput = deleteModal.querySelector('#deleteUserAge');
-                        const deleteUserEmailInput = deleteModal.querySelector('#deleteUserEmail');
-                        const deleteUserRoleInput = deleteModal.querySelector('#deleteUserRole');
-                        deleteUserIdInput.value = userId;
-                        deleteUserNameInput.value = userName;
-                        deleteUserAgeInput.value = userAge;
-                        deleteUserEmailInput.value = userEmail;
-                        deleteUserRoleInput.value = userRole;
 
                         const modal = new bootstrap.Modal(deleteModal);
                         modal.show();
