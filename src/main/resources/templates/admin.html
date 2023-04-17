@@ -407,8 +407,8 @@
                     editBtn.textContent = 'Edit';
                     editBtn.classList.add('edit-btn');
                     editBtn.setAttribute('data-bs-toggle', 'modal');
-                    editBtn.setAttribute('data-bs-target', '#modal-edit');
-                    const editModal = document.querySelector('#modal-edit-${item.id}');
+                    editBtn.setAttribute('data-bs-target', `#modal-edit-${item.id}`);
+                    const editModal = document.querySelector(`#modal-edit-${item.id}`);
                     editBtn.addEventListener('click', () => {
                         const row = editBtn.closest('tr');
                         const userId = row.cells[0].textContent;
@@ -437,8 +437,8 @@
                     deleteBtn.textContent = 'Delete';
                     deleteBtn.classList.add('delete-btn');
                     deleteBtn.setAttribute('data-bs-toggle', 'modal');
-                    deleteBtn.setAttribute('data-bs-target', '#modal-delete');
-                    const deleteModal = document.querySelector('#modal-delete-${item.id}');
+                    deleteBtn.setAttribute('data-bs-target', `#modal-delete-${item.id}`);
+                    const deleteModal = document.querySelector(`#modal-delete-${item.id}`);
                     deleteBtn.addEventListener('click', () => {
                         const row = deleteBtn.closest('tr');
                         const userId = row.cells[0].textContent;
