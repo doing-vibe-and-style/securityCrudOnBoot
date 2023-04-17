@@ -408,15 +408,15 @@
                     editBtn.classList.add('edit-btn');
                     editBtn.setAttribute('data-bs-toggle', 'modal');
                     editBtn.setAttribute('data-bs-target', '#modal-edit');
-                    editBtn.addEventListener('click', (event) => {
-                        const row = event.target.closest('tr');
+                    const editModal = document.querySelector('#modal-edit-${item.id}');
+                    editBtn.addEventListener('click', () => {
+                        const row = editBtn.closest('tr');
                         const userId = row.cells[0].textContent;
                         const userName = row.cells[1].textContent;
                         const userAge = row.cells[2].textContent;
                         const userEmail = row.cells[3].textContent;
                         const userRole = row.cells[4].textContent;
 
-                        const editModal = document.querySelector('#modal-edit');
                         const editUserIdInput = editModal.querySelector('#editUserId');
                         const editUserNameInput = editModal.querySelector('#editUserName');
                         const editUserAgeInput = editModal.querySelector('#editUserAge');
@@ -438,15 +438,15 @@
                     deleteBtn.classList.add('delete-btn');
                     deleteBtn.setAttribute('data-bs-toggle', 'modal');
                     deleteBtn.setAttribute('data-bs-target', '#modal-delete');
-                    deleteBtn.addEventListener('click', (event) => {
-                        const row = event.target.closest('tr');
+                    const deleteModal = document.querySelector('#modal-delete-${item.id}');
+                    deleteBtn.addEventListener('click', () => {
+                        const row = deleteBtn.closest('tr');
                         const userId = row.cells[0].textContent;
                         const userName = row.cells[1].textContent;
                         const userAge = row.cells[2].textContent;
                         const userEmail = row.cells[3].textContent;
                         const userRole = row.cells[4].textContent;
 
-                        const deleteModal = document.querySelector('#modal-delete');
                         const deleteUserIdInput = deleteModal.querySelector('#deleteUserId');
                         const deleteUserNameInput = deleteModal.querySelector('#deleteUserName');
                         const deleteUserAgeInput = deleteModal.querySelector('#deleteUserAge');
