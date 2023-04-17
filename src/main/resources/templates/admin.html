@@ -87,8 +87,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="modal fade" id="modal-edit-${user.id}" tabindex="-1"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="modal-edit-{{user.id}}" tabindex="-1"
+                                 aria-labelledby="modal-edit-{{user.id}}" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -410,9 +410,13 @@
                     editBtn.setAttribute('data-bs-target', `#modal-edit-${item.id}`);
                     const editModal = document.querySelector(`#modal-edit-${item.id}`);
                     editBtn.addEventListener('click', () => {
-
-                        const modal = new bootstrap.Modal(editModal);
-                        modal.show();
+                        function onEditButtonClick(event) {
+                            const button = event.target;
+                            const userId = button.closest('tr').dataset.userId;
+                            const modalId = `#modal-edit-${userId}`;
+                            const modal = new bootstrap.Modal(document.querySelector(modalId));
+                            modal.show();
+                        }
                     });
                     row.insertCell().appendChild(editBtn);
 
@@ -423,9 +427,13 @@
                     deleteBtn.setAttribute('data-bs-target', `#modal-delete-${item.id}`);
                     const deleteModal = document.querySelector(`#modal-delete-${item.id}`);
                     deleteBtn.addEventListener('click', () => {
-
-                        const modal = new bootstrap.Modal(deleteModal);
-                        modal.show();
+                        function onDeleteButtonClick(event) {
+                            const button = event.target;
+                            const userId = button.closest('tr').dataset.userId;
+                            const modalId = `#modal-delete-${userId}`;
+                            const modal = new bootstrap.Modal(document.querySelector(modalId));
+                            modal.show();
+                        }
                     });
                     row.insertCell().appendChild(deleteBtn);
                 });
