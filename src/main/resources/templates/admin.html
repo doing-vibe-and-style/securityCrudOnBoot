@@ -84,7 +84,7 @@
                                     </tr>
                                     </thead>
                                     <tbody id="table-body">
-                                    <div class="modal fade" th:id="${'modal-edit'+user.getId()}" tabindex="-1"
+                                    <div class="modal fade" id="modal-edit" tabindex="-1"
                                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
@@ -195,7 +195,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal fade" th:id="${'modal-delete'+user.getId()}"
+                                    <div class="modal fade" th:id="modal-delete"
                                          tabindex="-1"
                                          aria-labelledby="ModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
@@ -417,12 +417,12 @@
                         const userEmail = row.cells[3].textContent;
                         const userRole = row.cells[4].textContent;
 
-                        const editModal = document.querySelector('#modal-edit');
-                        const editUserIdInput = editModal.querySelector('#editUserId');
-                        const editUserNameInput = editModal.querySelector('#editUserName');
-                        const editUserAgeInput = editModal.querySelector('#editUserAge');
-                        const editUserEmailInput = editModal.querySelector('#editUserEmail');
-                        const editUserRoleInput = editModal.querySelector('#editUserRole');
+                        const editModal = document.querySelector(`#modal-edit`);
+                        const editUserIdInput = editModal.querySelector(`#editUserId`);
+                        const editUserNameInput = editModal.querySelector(`#editUserName`);
+                        const editUserAgeInput = editModal.querySelector(`#editUserAge`);
+                        const editUserEmailInput = editModal.querySelector(`#editUserEmail`);
+                        const editUserRoleInput = editModal.querySelector(`#editUserRole`);
                         editUserIdInput.value = userId;
                         editUserNameInput.value = userName;
                         editUserAgeInput.value = userAge;
@@ -447,12 +447,12 @@
                         const userEmail = row.cells[3].textContent;
                         const userRole = row.cells[4].textContent;
 
-                        const deleteModal = document.querySelector('#modal-delete');
-                        const deleteUserIdInput = deleteModal.querySelector('#deleteUserId');
-                        const deleteUserNameInput = deleteModal.querySelector('#deleteUserName');
-                        const deleteUserAgeInput = deleteModal.querySelector('#deleteUserAge');
-                        const deleteUserEmailInput = deleteModal.querySelector('#deleteUserEmail');
-                        const deleteUserRoleInput = deleteModal.querySelector('#deleteUserRole');
+                        const deleteModal = document.querySelector(`#modal-delete`);
+                        const deleteUserIdInput = deleteModal.querySelector(`#deleteUserId`);
+                        const deleteUserNameInput = deleteModal.querySelector(`#deleteUserName`);
+                        const deleteUserAgeInput = deleteModal.querySelector(`#deleteUserAge`);
+                        const deleteUserEmailInput = deleteModal.querySelector(`#deleteUserEmail`);
+                        const deleteUserRoleInput = deleteModal.querySelector(`#deleteUserRole`);
                         deleteUserIdInput.value = userId;
                         deleteUserNameInput.value = userName;
                         deleteUserAgeInput.value = userAge;
