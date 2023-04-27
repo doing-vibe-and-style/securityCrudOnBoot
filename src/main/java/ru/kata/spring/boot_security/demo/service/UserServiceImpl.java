@@ -33,6 +33,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    public User findByUserId(Long id) {
+        return userRepository.findUserById(id);
+    }
+
     @Transactional
     @Override
     public void add(User user) {
@@ -46,7 +50,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(user.getPassword() != "") {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {
-            user.setPassword(userRepository.findByUsername(user.getUsername()).getPassword());
+            user.setPassword(userRepository.findUserById(user.getId()).getPassword());
         }
         return userRepository.save(user);
     }
@@ -59,7 +63,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional(readOnly = true)
     public User getUser(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findUserById(id);
     }
 
     @Transactional(readOnly = true)

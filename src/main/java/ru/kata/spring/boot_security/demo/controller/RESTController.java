@@ -5,6 +5,7 @@ import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -25,6 +26,11 @@ public class RESTController {
         return allUsers;
     }
 
+    @GetMapping("/users/me")
+    public User getCurrentUser(Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        return user;
+    }
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable Long id) {
         User user = userService.getUser(id);
@@ -44,8 +50,9 @@ public class RESTController {
     }
 
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public User deleteUser(@PathVariable Long id) {
+        User user = userService.findByUserId(id);
         userService.remove(id);
-        return "User with ID = " + id + " was deleted";
+        return user;
     }
 }
