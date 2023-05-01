@@ -118,9 +118,9 @@
                                                                                    type="text"
                                                                                    name="username"
                                                                                    id="editUsername"
-                                                                                   required
                                                                                    minlength="1"
-                                                                                   maxlength="50">
+                                                                                   maxlength="50"
+                                                                                   required>
                                                                         </label>
                                                                     </p>
                                                                     <p>
@@ -162,8 +162,8 @@
                                                                         <strong>Role</strong>
                                                                         <select id="editUserRoles"
                                                                                 class="form-select"
-                                                                                required
-                                                                                name="roles" multiple size="2">
+                                                                                name="roles" multiple size="2"
+                                                                                required>
                                                                             <option value="ROLE_ADMIN">ADMIN</option>
                                                                             <option value="ROLE_USER">USER</option>
                                                                         </select>
@@ -313,7 +313,7 @@
                                             <label for="newUserRole" class="font-weight-bold mt-4">
                                                 <strong>Role</strong>
                                             </label>
-                                            <select multiple class="form-select" size="2" id="newUserRole">
+                                            <select multiple class="form-select" size="2" id="newUserRole" required>
                                                 <option value="ROLE_ADMIN">ADMIN</option>
                                                 <option value="ROLE_USER">USER</option>
                                             </select>
@@ -352,227 +352,15 @@
         </div>
     </div>
 </div>
-<!--<script src="webjars/jquery/3.3.1/jquery.min.js"></script>-->
+
+<script type="module" src=/static/addNewUser.js></script>
+<script type="module" src=/static/deleteUser.js></script>
+<script type="module" src=/static/editUser.js></script>
+<script type="module" src=/static/loadTable.js></script>
+<script type="module" src=/static/loadAboutUser.js></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-<script>
-    const navHomeTab = document.querySelector('#nav-home-tab')
-    const navProfileTab = document.querySelector('#nav-profile-tab')
-    const navTable = document.querySelector('#nav-home')
-    const navNewUser = document.querySelector('#nav-profile')
-    const editModal = document.querySelector(`#modal-edit`);
-    const deleteModal = document.querySelector(`#modal-delete`);
-    const modalEdit = new bootstrap.Modal(editModal);
-    const modalDelete = new bootstrap.Modal(deleteModal);
-    const table = document.querySelector("#table-body");
-    const editBtnClose = document.querySelector('#editBtnClose');
-    const deleteBtnClose = document.querySelector('#deleteBtnClose');
-    const aboutUserTable = document.querySelector('#about-user-table')
 
-    const form = document.querySelector('#newUserForm')
-    editBtnClose.addEventListener("click", () => {
-        modalEdit.hide();
-    })
-    deleteBtnClose.addEventListener("click", () => {
-        modalDelete.hide();
-    })
-
-    table.addEventListener('click', (event) => {
-        if (event.target.closest('.edit-btn')) {
-            editButtonHandler(event.target)
-        } else if (event.target.closest('.delete-btn')) {
-            deleteButtonHandler(event.target)
-        }
-    })
-
-    form.addEventListener('submit', function (event) {
-        event.preventDefault()
-        const newRole = document.querySelector('#newUserRole').value
-        const newUsername = document.querySelector('#newUsername').value
-        let addUser = {
-            age: document.querySelector('#newUserAge').value,
-            email: document.querySelector('#newUserEmail').value,
-            username: newUsername,
-            password: document.querySelector('#newUserPassword').value,
-            roles: [
-                {
-                    id: newRole === 'ROLE_ADMIN' ? 1 : 2,
-                    name: newRole
-                }
-            ]
-        }
-        fetch(`/api/users`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(addUser)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                console.log('User added successfully');
-                form.reset()
-                navHomeTab.classList.add('active')
-                navProfileTab.classList.remove('active')
-                navTable.classList.add('show', 'active')
-                navNewUser.classList.remove('active')
-                table.innerHTML = ''
-                loadTable()
-            })
-            .catch(error => {
-                console.error('Error adding user', error);
-            });
-    })
-
-    function editButtonHandler(node) {
-        const row = node.closest('tr');
-        const userId = row.cells[0].textContent;
-        const userName = row.cells[1].textContent;
-        const userAge = row.cells[2].textContent;
-        const userEmail = row.cells[3].textContent;
-        const userRole = row.cells[4].textContent;
-
-        const editUserIdInput = editModal.querySelector(`#idEditUser`);
-        const editUserNameInput = editModal.querySelector(`#editUsername`);
-        const editUserAgeInput = editModal.querySelector(`#editAge`);
-        const editUserEmailInput = editModal.querySelector(`#editEmail`);
-        const editUserRoleInput = editModal.querySelector(`#editUserRoles`);
-        const userPassword = editModal.querySelector('#userPassword')
-        editUserIdInput.value = userId;
-        editUserNameInput.value = userName;
-        editUserAgeInput.value = userAge;
-        editUserEmailInput.value = userEmail;
-        editUserRoleInput.value = userRole;
-
-        const editSaveBtn = editModal.querySelector('#modalEditBtn');
-        editSaveBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            const newUserName = editUserNameInput.value;
-            const newUserAge = editUserAgeInput.value;
-            const newUserEmail = editUserEmailInput.value;
-            const newUserRoles = editUserRoleInput.value;
-            const password = userPassword.value;
-            const id = userId;
-            let editUser = {
-                id,
-                username: newUserName,
-                age: newUserAge,
-                email: newUserEmail,
-                password,
-                roles: [
-                    {
-                        id: newUserRoles === 'ROLE_ADMIN' ? 1 : 2,
-                        name: newUserRoles
-                    }
-                ]
-            };
-
-            fetch(`/api/users`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(editUser)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    row.cells[1].textContent = data.username;
-                    row.cells[2].textContent = data.age;
-                    row.cells[3].textContent = data.email;
-                    row.cells[4].textContent = data.rolesString;
-                    modalEdit.hide();
-                })
-                .catch(error => console.error(error));
-        });
-    }
-
-    function deleteButtonHandler(node) {
-        const row = node.closest('tr');
-        const userId = row.cells[0].textContent;
-        const userName = row.cells[1].textContent;
-        const userAge = row.cells[2].textContent;
-        const userEmail = row.cells[3].textContent;
-
-        const deleteUserIdInput = deleteModal.querySelector(`#deleteId`);
-        const deleteUserNameInput = deleteModal.querySelector(`#deleteUsername`);
-        const deleteUserAgeInput = deleteModal.querySelector(`#deleteAge`);
-        const deleteUserEmailInput = deleteModal.querySelector(`#deleteEmail`);
-        deleteUserIdInput.value = userId;
-        deleteUserNameInput.value = userName;
-        deleteUserAgeInput.value = userAge;
-        deleteUserEmailInput.value = userEmail;
-
-        const modalDeleteBtn = deleteModal.querySelector('#modalDeleteBtn')
-        modalDeleteBtn.addEventListener('click', (event) => {
-            event.preventDefault()
-            fetch(`/api/users/` + userId, {
-                method: 'DELETE'
-            })
-                .then(response => response.json())
-                .then(() => {
-                    console.log('User with id=' + userId + ' deleted')
-                    modalDelete.hide();
-                    row.remove()
-                })
-                .catch(error => console.error(error));
-        });
-    }
-
-    function loadAboutUserTable() {
-        fetch('/api/users/me')
-            .then(response => response.json())
-            .then(data => {
-                const row = aboutUserTable.insertRow()
-                row.insertCell().textContent = data.id
-                row.insertCell().textContent = data.username
-                row.insertCell().textContent = data.age
-                row.insertCell().textContent = data.email
-                row.insertCell().textContent = data.rolesString
-            })
-            .catch(error => console.error(error))
-    }
-
-    function loadTable() {
-        fetch('/api/users')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(item => {
-                    const row = table.insertRow();
-                    row.insertCell().textContent = item.id;
-                    row.insertCell().textContent = item.username;
-                    row.insertCell().textContent = item.age;
-                    row.insertCell().textContent = item.email;
-                    row.insertCell().textContent = item.rolesString;
-                    const editBtn = document.createElement('button');
-                    editBtn.textContent = 'Edit';
-                    editBtn.classList.add('edit-btn');
-                    editBtn.setAttribute('data-bs-toggle', 'modal');
-                    editBtn.id = item.id;
-                    editBtn.setAttribute('data-bs-target', '#modal-edit');
-                    row.insertCell().appendChild(editBtn);
-
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.textContent = 'Delete';
-                    deleteBtn.classList.add('delete-btn');
-                    deleteBtn.setAttribute('data-bs-toggle', 'modal');
-                    deleteBtn.id = item.id;
-                    deleteBtn.setAttribute('data-bs-target', '#modal-delete');
-                    row.insertCell().appendChild(deleteBtn);
-                });
-            })
-            .catch(error => console.error(error));
-    }
-
-    loadTable();
-    loadAboutUserTable()
-</script>
 </body>
 </html>

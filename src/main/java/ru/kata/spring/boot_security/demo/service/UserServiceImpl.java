@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public User update(User user) {
-        if(user.getPassword() != "") {
+        if(!(user.getPassword().isBlank())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {
             user.setPassword(userRepository.findUserById(user.getId()).getPassword());
